@@ -1,7 +1,7 @@
 {
   "name": "@rzcdz/dsh-session-handoff",
-  "version": "1.1.0",
-  "description": "Daily session handoff: create a named session in the same workspace and send a handoff command on a cron schedule.",
+  "version": "1.1.1",
+  "description": "每日会话交接：按 cron 定时在指定工作区新建会话，用「前缀 + 明天日期」命名并置顶，再发送交接指令。",
   "license": "MIT",
   "author": "rzcdz",
   "type": "module",
