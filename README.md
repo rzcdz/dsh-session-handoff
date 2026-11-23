@@ -30,9 +30,9 @@ git clone https://github.com/rzcdz/dsh-session-handoff.git
 
 插件市场（dsh-market）能直接更新它：在「已安装」里找到本插件，点更新即可。
 
-市场对 GitHub 来源比较的是 **commit SHA** 而不是版本号，所以只要本仓库有新的提交，市场就会认为有更新——不需要为了更新去改 `package.json` 的 version。手动更新等价于「卸载后重新安装」。
+**要发新版本，必须提升 `package.json` 里的 `version`。** 对 `github:owner/repo` 这种跟随默认分支的安装，市场比较的是仓库 HEAD 的 `package.json` 里的 `version` 与本地已装版本——commit 变了但 version 没变，市场会一直显示「已最新」。这与 npm 来源的规则一致。
 
-如果「更新检查」里没出现本插件，点一次刷新；市场带有短时缓存。
+手动更新等价于「卸载后重新安装」。市场带有短时缓存，刚推送后如果没看到更新，点一次刷新。
 
 ## 用法
 

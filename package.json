@@ -1,6 +1,6 @@
 {
   "name": "@rzcdz/dsh-session-handoff",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Daily session handoff: create a named session in the same workspace and send a handoff command on a cron schedule.",
   "license": "MIT",
   "author": "rzcdz",
