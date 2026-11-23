@@ -39,6 +39,8 @@
     "cordis.patch.yml",
     "locale/*.json",
     "docs",
+    "tests",
+    "test-cron.mjs",
     "icon.svg",
     "README.md",
     "LICENSE"
