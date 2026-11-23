@@ -32,7 +32,7 @@ git clone https://github.com/rzcdz/dsh-session-handoff.git
 2. 「+ 新建」添加交接：交接指令、名字前缀、工作区。
 3. 到点自动执行；也可以随时点「立即交接」。
 
-新会话名 = 你填的前缀 + 触发时刻**明天**的月日。今天 15:40 触发、前缀 `做t分析`，得到 `做t分析1124`。
+新会话名 = 你填的前缀 + 触发时刻**明天**的月日。今天 15:40 触发、前缀 `任务`，得到 `任务1124`。
 
 ### cron 表达式
 
@@ -57,7 +57,7 @@ git clone https://github.com/rzcdz/dsh-session-handoff.git
 
 插件注册了 `handoff` 工具，可 `list` / `create` / `update` / `delete` / `toggle` / `run`，改的是同一份数据。例如：
 
-> 帮我加一条交接，指令 `@t0/SESSION-SEED.md 执行 ★ 节交接`，前缀 `做t分析`
+> 帮我加一条交接，指令 `@docs/HANDOFF.md run the handoff section`，前缀 `任务`
 
 ## 开发
 

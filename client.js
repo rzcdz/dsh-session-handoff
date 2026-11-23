@@ -288,7 +288,7 @@ window.__ModuleLoader__.load({
             className: 'hf-input hf-mono',
             rows: 3,
             value: command,
-            placeholder: '@t0/SESSION-SEED.md 执行 ★ 节交接',
+            placeholder: '@docs/HANDOFF.md run the handoff section',
             onChange: (event) => setCommand(event.target.value),
           }),
           h('div', { className: 'hf-hint' }, '新会话收到的第一条消息，发出后立即开始执行。'),
@@ -299,12 +299,12 @@ window.__ModuleLoader__.load({
           h('input', {
             className: 'hf-input',
             value: prefix,
-            placeholder: '做t分析',
+            placeholder: '任务',
             onChange: (event) => setPrefix(event.target.value),
           }),
           h('div', { className: 'hf-hint' },
             '新会话名 = 前缀 + 明天的月日，例如 ',
-            h('code', { className: 'hf-mono' }, previewTitle(prefix || '做t分析')),
+            h('code', { className: 'hf-mono' }, previewTitle(prefix || '任务')),
             '。',
           ),
         ),
@@ -477,7 +477,7 @@ window.__ModuleLoader__.load({
           h('button', {
             className: 'hf-btn primary',
             disabled: busy || editing !== null || state === null,
-            onClick: () => setEditing({ mode: 'create', command: '', prefix: '做t分析', workspaceId: '' }),
+            onClick: () => setEditing({ mode: 'create', command: '', prefix: '任务', workspaceId: '' }),
           }, '+ 新建'),
         ),
 

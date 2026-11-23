@@ -45,8 +45,8 @@ function makeCtx() {
     },
     workspaceRegistry: {
       list: () => [
-        { id: 'ws-free', title: 'dshfree', path: 'D:\\dshfree' },
-        { id: 'ws-work', title: 'dshwork', path: 'D:\\dshwork' },
+        { id: 'ws-a', title: 'project-a', path: 'D:\\project-a' },
+        { id: 'ws-b', title: 'project-b', path: 'D:\\project-b' },
       ],
       pinSession: async (sessionId) => {
         if (pinned.refuse === true) throw new Error('pin refused')
@@ -54,7 +54,7 @@ function makeCtx() {
       },
     },
     sessionController: {
-      list: async () => ({ items: [{ sessionId: 's-old', updatedAt: 5, cwd: 'D:\\dshwork' }] }),
+      list: async () => ({ items: [{ sessionId: 's-old', updatedAt: 5, cwd: 'D:\\project-b' }] }),
       create: async (request) => {
         created.push(request)
         return { sessionId: `s-new-${created.length}` }
@@ -106,7 +106,7 @@ let state = await hit(routes.get('/dsh-handoff/api/state'), undefined, 'GET')
 check('default cron', state.cron, '40 15 * * 1-5')
 check('default enabled', state.cronEnabled, true)
 check('no entries', state.entries.length, 0)
-check('workspaces listed', state.workspaces.map(w => w.id), ['ws-free', 'ws-work'])
+check('workspaces listed', state.workspaces.map(w => w.id), ['ws-a', 'ws-b'])
 check('three next runs', state.nextRuns.length, 3)
 
 // --- invalid cron is rejected and does not overwrite ---
@@ -132,12 +132,12 @@ await hit(routes.get('/dsh-handoff/api/cron'), { enabled: true })
 // --- create an entry in an explicit workspace ---
 let made = await hit(routes.get('/dsh-handoff/api/entry'), {
   action: 'create',
-  command: '@t0/SESSION-SEED.md 执行 ★ 节交接',
-  prefix: '做t分析',
-  workspaceId: 'ws-work',
+  command: '@docs/HANDOFF.md run the handoff section',
+  prefix: '任务',
+  workspaceId: 'ws-b',
 })
 check('entry created', made.entries.length, 1)
-check('entry workspace path', made.entries[0].workspacePath, 'D:\\dshwork')
+check('entry workspace path', made.entries[0].workspacePath, 'D:\\project-b')
 check('entry enabled by default', made.entries[0].enabled, true)
 const firstId = made.entries[0].id
 
@@ -149,14 +149,14 @@ check('still one entry', (await hit(routes.get('/dsh-handoff/api/state'), undefi
 // --- run now: create -> rename -> prompt, with tomorrow's date ---
 let ran = await hit(routes.get('/dsh-handoff/api/entry'), { action: 'run', id: firstId })
 check('run reported success', ran.succeeded, true)
-check('created with workspace', created[0].workspaceId, 'ws-work')
+check('created with workspace', created[0].workspaceId, 'ws-b')
 check('created without cwd', created[0].cwd, undefined)
 const tomorrow = new Date()
 tomorrow.setDate(tomorrow.getDate() + 1)
-const wantTitle = `做t分析${String(tomorrow.getMonth() + 1).padStart(2, '0')}${String(tomorrow.getDate()).padStart(2, '0')}`
+const wantTitle = `任务${String(tomorrow.getMonth() + 1).padStart(2, '0')}${String(tomorrow.getDate()).padStart(2, '0')}`
 check('renamed to prefix + tomorrow', renamed[0].title, wantTitle)
 check('prompt sent after rename', prompted.length, 1)
-check('prompt carries command', prompted[0].content[0].text, '@t0/SESSION-SEED.md 执行 ★ 节交接')
+check('prompt carries command', prompted[0].content[0].text, '@docs/HANDOFF.md run the handoff section')
 check('prompt targets new session', prompted[0].sessionId, 's-new-1')
 check('lastRun recorded', ran.entries[0].lastRun.ok, true)
 check('lastRun title', ran.entries[0].lastRun.title, wantTitle)
@@ -176,7 +176,7 @@ const pinCtx = makeCtx()
 pinCtx.pinned.refuse = true
 apply(pinCtx.ctx, { storeDir: pinDir })
 const pinMade = await hit(pinCtx.routes.get('/dsh-handoff/api/entry'), {
-  action: 'create', command: 'cmd', prefix: 'p', workspaceId: 'ws-free',
+  action: 'create', command: 'cmd', prefix: 'p', workspaceId: 'ws-a',
 })
 const pinRan = await hit(pinCtx.routes.get('/dsh-handoff/api/entry'), { action: 'run', id: pinMade.entries[0].id })
 check('handoff survives a refused pin', pinRan.succeeded, true)
@@ -192,15 +192,15 @@ check('entry disabled', toggled.entries[0].enabled, false)
 
 // --- update changes prefix and workspace ---
 let updated = await hit(routes.get('/dsh-handoff/api/entry'), {
-  action: 'update', id: firstId, prefix: '做t复盘', workspaceId: 'ws-free',
+  action: 'update', id: firstId, prefix: '交接', workspaceId: 'ws-a',
 })
-check('prefix updated', updated.entries[0].prefix, '做t复盘')
-check('workspace path updated', updated.entries[0].workspacePath, 'D:\\dshfree')
+check('prefix updated', updated.entries[0].prefix, '交接')
+check('workspace path updated', updated.entries[0].workspacePath, 'D:\\project-a')
 
 // --- second entry falls back to most recently active session workspace ---
 let second = await hit(routes.get('/dsh-handoff/api/entry'), { action: 'create', command: 'x', prefix: 'a' })
-check('fallback workspace id', second.entries[1].workspaceId, 'ws-work')
-check('fallback workspace path', second.entries[1].workspacePath, 'D:\\dshwork')
+check('fallback workspace id', second.entries[1].workspaceId, 'ws-b')
+check('fallback workspace path', second.entries[1].workspacePath, 'D:\\project-b')
 
 // --- delete ---
 let deleted = await hit(routes.get('/dsh-handoff/api/entry'), { action: 'delete', id: second.entries[1].id })
@@ -212,7 +212,7 @@ apply(second1.ctx, { storeDir: dir })
 const reread = await hit(second1.routes.get('/dsh-handoff/api/state'), undefined, 'GET')
 check('cron persisted', reread.cron, '30 9 * * 1-5')
 check('entry persisted', reread.entries.length, 1)
-check('prefix persisted', reread.entries[0].prefix, '做t复盘')
+check('prefix persisted', reread.entries[0].prefix, '交接')
 check('disabled state persisted', reread.entries[0].enabled, false)
 
 // --- corrupt file falls back to defaults ---

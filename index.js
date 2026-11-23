@@ -575,7 +575,7 @@ export function apply(ctx, config = {}) {
         description: 'Operation to perform.',
       },
       id: { type: 'string', description: 'Entry id. Required for update, delete, toggle, and run.' },
-      command: { type: 'string', description: 'First message the new session receives, such as "@t0/SESSION-SEED.md 执行 ★ 节交接".' },
+      command: { type: 'string', description: 'First message the new session receives, such as "@docs/HANDOFF.md run the handoff section".' },
       prefix: { type: 'string', description: 'Title prefix; the tomorrow date is appended automatically.' },
       workspaceId: { type: 'string', description: 'Target workspace id from the workspaces list. Omit to use the most recently active session workspace.' },
       enabled: { type: 'boolean', description: 'For toggle: whether the entry takes part in scheduled runs.' },
