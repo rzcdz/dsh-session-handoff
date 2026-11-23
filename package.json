@@ -1,0 +1,58 @@
+{
+  "name": "@rzcdz/dsh-session-handoff",
+  "version": "1.0.0",
+  "description": "Daily session handoff: create a named session in the same workspace and send a handoff command on a cron schedule.",
+  "license": "MIT",
+  "author": "rzcdz",
+  "type": "module",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "session",
+    "handoff",
+    "cron"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rzcdz/dsh-session-handoff.git"
+  },
+  "homepage": "https://github.com/rzcdz/dsh-session-handoff#readme",
+  "bugs": {
+    "url": "https://github.com/rzcdz/dsh-session-handoff/issues"
+  },
+  "scripts": {
+    "test": "node test-cron.mjs && node tests/host.test.mjs"
+  },
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "lib/cron.js",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "docs",
+    "icon.svg",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  }
+}

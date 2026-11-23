@@ -1,0 +1,5 @@
+# Adds the daily handoff panel: one shared cron schedule plus a list of
+# handoffs, each of which creates a named session in a chosen workspace.
+- insert:
+    - id: session-handoff
+      name: '@rzcdz/dsh-session-handoff'

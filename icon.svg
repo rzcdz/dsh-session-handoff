@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Daily session handoff">
+  <title>Daily session handoff</title>
+  <rect x="2" y="2" width="60" height="60" rx="14" fill="#2f6fed"/>
+  <g fill="none" stroke="#ffffff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M16 22h18a10 10 0 0 1 0 20H27"/>
+    <path d="M33 35l-7 7 7 7"/>
+    <circle cx="47" cy="20" r="7"/>
+    <path d="M47 16.5V20l2.5 1.8"/>
+  </g>
+</svg>

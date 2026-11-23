@@ -1,0 +1,7 @@
+{
+  "meta": {
+    "title": "Daily session handoff",
+    "description": "Runs a handoff on a cron schedule: one shared expression, a list of enabled handoffs, and each run creates a new session in its own workspace, names it with tomorrow's date, and sends the handoff command as the first message.",
+    "detail": "docs/DETAIL.md"
+  }
+}
