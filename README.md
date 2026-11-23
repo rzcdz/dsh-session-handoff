@@ -59,6 +59,8 @@ git clone https://github.com/rzcdz/dsh-session-handoff.git
 
 > 帮我加一条交接，指令 `@docs/HANDOFF.md run the handoff section`，前缀 `任务`
 
+该工具启用延迟加载（`deferLoading`），定义平时不占上下文，只有真的用到时才读入。交接本身不依赖它：定时、建会话、命名、置顶、发送指令都走独立路径。
+
 ## 开发
 
 ```bash

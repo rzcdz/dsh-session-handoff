@@ -564,8 +564,13 @@ export function apply(ctx, config = {}) {
   }, 'session-handoff: routes')
 
   // Agent-facing control over the same list the page edits.
+  //
+  // `deferLoading` keeps this definition out of the prompt until a turn actually
+  // needs it: the tool is a convenience over the panel, so its ~400 tokens of
+  // schema should not be paid on every request in every session.
   ctx.effect(() => ctx.tools.register({
     name: 'handoff',
+    deferLoading: true,
     description: 'Manage the daily session handoff list: list entries and the shared cron schedule, create or update an entry (command text, title prefix, target workspace), enable or disable it, delete it, or run one now. A handoff creates a new session in the chosen workspace, names it "<prefix><tomorrow MMDD>", and sends the command as its first message.',
     parameters: {
       action: {
